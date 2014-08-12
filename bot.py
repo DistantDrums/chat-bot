@@ -38,8 +38,8 @@ def OnMessageStatus(Message, Status):
         print(Message.FromDisplayName + ': ' + Message.Body)
         if bot == 'on':
             if re.match(addRegExp, Message.Body):
-                Message.Chat.SendMessage('Записываю новое правило:')
                 AddNewRule(Message.Body) #Это для добавления нового правила
+                Message.Chat.SendMessage('Понятно.')
             for i,e in Commands.items():
                 if Message.Body == i: Message.Chat.SendMessage(e)
             for i,e in UserCommands.items():
@@ -52,9 +52,6 @@ def OnMessageStatus(Message, Status):
 
     if Status == 'SENT': #только отправленные сообщения
         print('Myself ' + Message.Body)
-        if re.match(addRegExp, Message.Body):
-            AddNewRule(Message.Body) #Это для добавления нового правила
-            Message.Chat.SendMessage('Понятно.')
         for i,e in Commands.items():
             if Message.Body == i: Message.Chat.SendMessage(e)
         for i,e in UserCommands.items():
