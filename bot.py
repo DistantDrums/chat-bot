@@ -36,13 +36,13 @@ def OnMessageStatus(Message, Status):
     global bot
     if Status == 'RECEIVED':
         print(Message.FromDisplayName + ': ' + Message.Body)
-        if Message.Body == u'Кря, выключи бота!':
-            bot = 'off'
-            Message.Chat.SendMessage('(finger)')
-        if Message.Body == u'Кря, включи бота!':
-            bot = 'on'
-            Message.Chat.SendMessage('(drunk)')
         if bot == 'on':
+            if Message.Body == u'Кря, выключи бота!':
+                bot = 'off'
+                Message.Chat.SendMessage('(finger)')
+            if Message.Body == u'Кря, включи бота!':
+                bot = 'on'
+                Message.Chat.SendMessage('(drunk)')
             for i,e in RegExp.items():
                 if re.match(CompiledRegExp[i], Message.Body): Message.Chat.SendMessage(e())
             if re.match(addRegExp, Message.Body):
@@ -61,19 +61,19 @@ def OnMessageStatus(Message, Status):
         if re.match(addRegExp, Message.Body):
             AddNewRule(Message.Body) #Это для добавления нового правила
             Message.Chat.SendMessage('Понятно.')
-        if Message.Body == u'Кря, выключи бота!':
+        if Message.Body == u'Кря, выключи бота!' or Message.Body == u'bot=off':
             bot = 'off'
             Message.Chat.SendMessage('(finger)')
-        if Message.Body == u'Кря, включи бота!':
+        if Message.Body == u'Кря, включи бота!' or Message.Body == u'bot=on':
             bot = 'on'
             Message.Chat.SendMessage('(drunk)')
-        for i,e in Commands.items():
-            if Message.Body == i: Message.Chat.SendMessage(e)
         if bot == 'on':
+            for i,e in Commands.items():
+                if Message.Body == i: Message.Chat.SendMessage(e)
             for i,e in UserCommands.items():
                 if Message.Body == i: Message.Chat.SendMessage(e)
-        for i,e in RegExp.items():
-            if re.match(CompiledRegExp[i], Message.Body): Message.Chat.SendMessage(e())
+            for i,e in RegExp.items():
+                if re.match(CompiledRegExp[i], Message.Body): Message.Chat.SendMessage(e())
 
 skype.OnAttachmentStatus = OnAttach
 skype.OnMessageStatus = OnMessageStatus
